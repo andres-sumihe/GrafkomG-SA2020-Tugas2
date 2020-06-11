@@ -3,7 +3,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <GL/glut.h>
+//#include <GL/freeglut.h>
 #include <string>
+
 using namespace std;
 
 
@@ -134,7 +136,6 @@ void display() {
 	glVertex2d(sMrx + sBDx, sMry + sBDy);
 
 	glEnd();
-	
 
 	glutSwapBuffers();
 }
