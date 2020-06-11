@@ -5,28 +5,27 @@
 #include <GL/glut.h>
 //#include <GL/freeglut.h>
 #include <string>
-
 using namespace std;
 
 
-double sMx;
-double sMy;
-double sVy;
-double sVx;
-double sBx;
-double sBy;
-double sMrx;
-double sMry;
+double coorMerkuriusX;
+double coorMerkuriusY;
+double coorVenusX;
+double coorVenusY;
+double coorBumiX;
+double coorBumiY;
+double coorMarsX;
+double coorMarsY;
 
 //Satelit Alam
-double sBBx;
-double sBBy;
+double coorBulanBumiX;
+double coorBulanBumiY;
 
-double sBPx;
-double sBPy;
+double coorBulanPhobosX;
+double coorBulanPhobosY;
 
-double sBDx;
-double sBDy;
+double coorBulanDeimosX;
+double coorBulanDeimosY;
 
 void planet(double r, double xx, double yy, int n,  bool orbit) {
 	double count = (double)n;
@@ -41,49 +40,28 @@ void planet(double r, double xx, double yy, int n,  bool orbit) {
 
 void garis(double r_pointsX1 ,double r_pointsY1, double r_pointsX2, double r_pointsY2) {
 	glBegin(GL_LINES);
-
 	glVertex2d(r_pointsX1, r_pointsY1);
 	glVertex2d(r_pointsX2, r_pointsY2);
-
 	glEnd();
 }
-int j = 0;
+
+
+int countRevolusi = 0;
 void revolusi(double r, int days, string nama_planet) {
 	
-	double x = r * cos(2 * M_PI * j / days);
-	double y = r * sin(2 * M_PI * j / days);
+	double x = r * cos(2 * M_PI * countRevolusi / days);
+	double y = r * sin(2 * M_PI * countRevolusi / days);
 
-	j++;
+	countRevolusi++;
 
-	if (nama_planet == "merkurius") {
-		sMx = x; sMy = y;
-		cout << x << endl;
-	}
-	if (nama_planet == "venus") {
-		sVx = x; sVy = y;
-		cout << x << endl;
-	}
-	if (nama_planet == "bumi") {
-		sBx = x; sBy = y;
-		cout << x << endl;
-	}
-	if (nama_planet == "mars") {
-		sMrx = x; sMry = y;
-		cout << x << endl;
-	}
+	if (nama_planet == "merkurius") {coorMerkuriusX = x; coorMerkuriusY = y;}
+	if (nama_planet == "venus") {coorVenusY = x; coorVenusX = y;}
+	if (nama_planet == "bumi") {coorBumiX = x; coorBumiY = y;}
+	if (nama_planet == "mars") {coorMarsX = x; coorMarsY = y;}
 	//Satelit Alam
-	if (nama_planet == "bulan") {
-		sBBx = x; sBBy = y;
-		cout << x << endl;
-	}
-	if (nama_planet == "phobos") {
-		sBPx = x; sBPy = y;
-		cout << x << endl;
-	}
-	if (nama_planet == "deimos") {
-		sBDx = x; sBDy = y;
-		cout << x << endl;
-	}
+	if (nama_planet == "bulan") {coorBulanBumiX = x; coorBulanBumiY = y;}
+	if (nama_planet == "phobos") {coorBulanPhobosX = x; coorBulanPhobosY = y;}
+	if (nama_planet == "deimos") {coorBulanDeimosX = x; coorBulanDeimosY = y;}
 }
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -94,46 +72,46 @@ void display() {
 	planet(400.0, 0.0, 0.0, 60, true);
 
 	//Satelit Alam
-	planet(35.0, sBx, sBy, 60, true);
-	planet(35.0, sMrx, sMry, 60, true);
-	planet(45.0, sMrx, sMry, 60, true);
+	planet(35.0, coorBumiX, coorBumiY, 60, true);
+	planet(35.0, coorMarsX, coorMarsY, 60, true);
+	planet(45.0, coorMarsX, coorMarsY, 60, true);
 
-	garis(0.0,0.0,sMx, sMy);
-	garis(0.0,0.0,sVx, sVy);
-	garis(0.0,0.0,sBx, sBy );
-	garis(0.0,0.0,sMrx, sMry);
-	garis(sBx, sBy, sBx + sBBx, sBy + sBBy);
-	garis( sMrx, sMry, sMrx + sBPx, sMry + sBPy);
-	garis( sMrx, sMry, sMrx + sBDx, sMry + sBDy);
+	garis(0.0,0.0,coorMerkuriusX, coorMerkuriusY);
+	garis(0.0,0.0,coorVenusY, coorVenusX);
+	garis(0.0,0.0,coorBumiX, coorBumiY );
+	garis(0.0,0.0,coorMarsX, coorMarsY);
+	garis(coorBumiX, coorBumiY, coorBumiX + coorBulanBumiX, coorBumiY + coorBulanBumiY);
+	garis( coorMarsX, coorMarsY, coorMarsX + coorBulanPhobosX, coorMarsY + coorBulanPhobosY);
+	garis( coorMarsX, coorMarsY, coorMarsX + coorBulanDeimosX, coorMarsY + coorBulanDeimosY);
 	
 	glColor3ub(255, 255, 0);
 	planet(30.0, 0.0, 0.0, 60, false);
 
 	glColor3ub(138, 135, 131);
-	planet(8.0, sMx, sMy, 60, false);
+	planet(8.0, coorMerkuriusX, coorMerkuriusY, 60, false);
 	glColor3ub(179, 89, 11	);
-	planet(20.0, sVx, sVy, 60, false);
+	planet(20.0, coorVenusY, coorVenusX, 60, false);
 	glColor3ub(50, 102, 168);
-	planet(24.0,  sBx, sBy, 60, false);
+	planet(24.0,  coorBumiX, coorBumiY, 60, false);
 	glColor3ub(217, 31, 7);
-	planet(18.0, sMrx, sMry, 60, false);
+	planet(18.0, coorMarsX, coorMarsY, 60, false);
 
 	glColor3ub(138, 135, 131);
 	glBegin(GL_POINTS);
 	glPointSize(3.0f);
-	glVertex2d(sBx + sBBx, sBy + sBBy);
+	glVertex2d(coorBumiX + coorBulanBumiX, coorBumiY + coorBulanBumiY);
 	glEnd();
 
 	glColor3ub(138, 135, 131);
 	glBegin(GL_POINTS);
 	glPointSize(1.0f);
-	glVertex2d(sMrx + sBPx, sMry + sBPy);
+	glVertex2d(coorMarsX + coorBulanPhobosX, coorMarsY + coorBulanPhobosY);
 	glEnd();
 
 	glColor3ub(138, 135, 131);
 	glBegin(GL_POINTS);
-	glPointSize(2.0f);
-	glVertex2d(sMrx + sBDx, sMry + sBDy);
+	glPointSize(2.f);
+	glVertex2d(coorMarsX + coorBulanDeimosX, coorMarsY + coorBulanDeimosY);
 
 	glEnd();
 
@@ -149,7 +127,7 @@ void myinit() {
 
 void timer(int) {
 	glutPostRedisplay();
-	glutTimerFunc(1000 / 30, timer, 0);
+	glutTimerFunc(1000 / 30, timer, 0); // 30 FPS
 	// Waktu Revolusi --> 1 Detik Program = 10 Hari Bumi
 	revolusi(70, 880, "merkurius" );
 	revolusi(140, 2240, "venus" );
@@ -164,7 +142,6 @@ void timer(int) {
 	// Phobos Memiliki Kecepatan Revolusi 7 Jam dan Deimos 30 Jam
 	revolusi(35, 295, "phobos" );
 	revolusi(45, 395, "deimos" );
-	std::cout << sBx << std::endl;
 }
 
 int main(int argc, char** argv) {
@@ -183,4 +160,8 @@ int main(int argc, char** argv) {
 	glutMainLoop();
 
 	return 0;
+	//Initial Source Code from https://bit.ly/GrakomUtility
+	//Reference Video from https://www.youtube.com/watch?v=Xlcn0SpzyCQ
+
+	// Dont Forget to visit https://codemaster.my.id :D
 }
