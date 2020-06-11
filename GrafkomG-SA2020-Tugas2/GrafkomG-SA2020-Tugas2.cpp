@@ -15,6 +15,17 @@ double sBx;
 double sBy;
 double sMrx;
 double sMry;
+
+//Satelit Alam
+double sBBx;
+double sBBy;
+
+double sBPx;
+double sBPy;
+
+double sBDx;
+double sBDy;
+
 void planet(double r, double xx, double yy, int n,  bool orbit) {
 	double count = (double)n;
 	glBegin((orbit) ? GL_LINE_LOOP : GL_POLYGON );
@@ -23,6 +34,15 @@ void planet(double r, double xx, double yy, int n,  bool orbit) {
 		double y = r * sin(2 * M_PI * i / count);
 		glVertex2d(xx+x, yy+y);
 	}
+	glEnd();
+}
+
+void garis(double r_pointsX1 ,double r_pointsY1, double r_pointsX2, double r_pointsY2) {
+	glBegin(GL_LINES);
+
+	glVertex2d(r_pointsX1, r_pointsY1);
+	glVertex2d(r_pointsX2, r_pointsY2);
+
 	glEnd();
 }
 int j = 0;
@@ -34,23 +54,32 @@ void revolusi(double r, int days, string nama_planet) {
 	j++;
 
 	if (nama_planet == "merkurius") {
-		sMx = x;
-		sMy = y;
+		sMx = x; sMy = y;
 		cout << x << endl;
 	}
 	if (nama_planet == "venus") {
-		sVx = x;
-		sVy = y;
+		sVx = x; sVy = y;
 		cout << x << endl;
 	}
 	if (nama_planet == "bumi") {
-		sBx = x;
-		sBy = y;
+		sBx = x; sBy = y;
 		cout << x << endl;
 	}
 	if (nama_planet == "mars") {
-		sMrx = x;
-		sMry = y;
+		sMrx = x; sMry = y;
+		cout << x << endl;
+	}
+	//Satelit Alam
+	if (nama_planet == "bulan") {
+		sBBx = x; sBBy = y;
+		cout << x << endl;
+	}
+	if (nama_planet == "phobos") {
+		sBPx = x; sBPy = y;
+		cout << x << endl;
+	}
+	if (nama_planet == "deimos") {
+		sBDx = x; sBDy = y;
 		cout << x << endl;
 	}
 }
@@ -61,6 +90,19 @@ void display() {
 	planet(140.0, 0.0, 0.0, 60, true);
 	planet(250.0, 0.0, 0.0, 60, true);
 	planet(400.0, 0.0, 0.0, 60, true);
+
+	//Satelit Alam
+	planet(35.0, sBx, sBy, 60, true);
+	planet(35.0, sMrx, sMry, 60, true);
+	planet(45.0, sMrx, sMry, 60, true);
+
+	garis(0.0,0.0,sMx, sMy);
+	garis(0.0,0.0,sVx, sVy);
+	garis(0.0,0.0,sBx, sBy );
+	garis(0.0,0.0,sMrx, sMry);
+	garis(sBx, sBy, sBx + sBBx, sBy + sBBy);
+	garis( sMrx, sMry, sMrx + sBPx, sMry + sBPy);
+	garis( sMrx, sMry, sMrx + sBDx, sMry + sBDy);
 	
 	glColor3ub(255, 255, 0);
 	planet(30.0, 0.0, 0.0, 60, false);
@@ -76,8 +118,21 @@ void display() {
 
 	glColor3ub(138, 135, 131);
 	glBegin(GL_POINTS);
-	glPointSize(1);
-	glVertex2d(sBx + 30, sBy + 30);
+	glPointSize(3.0f);
+	glVertex2d(sBx + sBBx, sBy + sBBy);
+	glEnd();
+
+	glColor3ub(138, 135, 131);
+	glBegin(GL_POINTS);
+	glPointSize(1.0f);
+	glVertex2d(sMrx + sBPx, sMry + sBPy);
+	glEnd();
+
+	glColor3ub(138, 135, 131);
+	glBegin(GL_POINTS);
+	glPointSize(2.0f);
+	glVertex2d(sMrx + sBDx, sMry + sBDy);
+
 	glEnd();
 	
 
@@ -94,11 +149,20 @@ void myinit() {
 void timer(int) {
 	glutPostRedisplay();
 	glutTimerFunc(1000 / 30, timer, 0);
-	// Waktu Revolusi --> 1 Detik = 10 Hari Bumi
+	// Waktu Revolusi --> 1 Detik Program = 10 Hari Bumi
 	revolusi(70, 880, "merkurius" );
 	revolusi(140, 2240, "venus" );
 	revolusi(250, 3650, "bumi" );
 	revolusi(400, 6870, "mars" );
+	
+	//bulan 29.5 Hari
+	revolusi(35, 295, "bulan" );
+
+	// Untuk Kecepatan Revolusi Phobos dan Deimos tidak menggunakan waktu revolusi
+	// yang diapakai untuk planet lainnya karena perputaran akan sangat cepat
+	// Phobos Memiliki Kecepatan Revolusi 7 Jam dan Deimos 30 Jam
+	revolusi(35, 295, "phobos" );
+	revolusi(45, 395, "deimos" );
 	std::cout << sBx << std::endl;
 }
 
