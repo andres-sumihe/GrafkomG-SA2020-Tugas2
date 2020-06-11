@@ -35,7 +35,7 @@ if you use freeglut.h just uncomment code below on main.cpp
 ```
 
 ## Algorithm
-[n-Gon Algorithm](https://github.com/andres-sumihe/GrafkomG-SA2020-Tugas2/blob/master/n-Gon%20Algorithm.PNG)
+![n-Gon Algorithm](https://github.com/andres-sumihe/GrafkomG-SA2020-Tugas2/blob/master/n-Gon%20Algorithm.PNG)
 
 this is the Math Algorthm for draw Circle that i use in this project code
 you can find that code in function 
