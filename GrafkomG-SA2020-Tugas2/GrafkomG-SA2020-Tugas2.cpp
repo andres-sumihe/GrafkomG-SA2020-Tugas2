@@ -38,6 +38,14 @@ void planet(double r, double xx, double yy, int n,  bool orbit) {
 	glEnd();
 }
 
+void Satelites(double x1,double x2, float size){
+	glColor3ub(138, 135, 131);
+	glPointSize(size);
+	glBegin(GL_POINTS);
+	glVertex2d(x1, x2);
+	glEnd();
+}
+
 void garis(double r_pointsX1 ,double r_pointsY1, double r_pointsX2, double r_pointsY2) {
 	glBegin(GL_LINES);
 	glVertex2d(r_pointsX1, r_pointsY1);
@@ -96,24 +104,10 @@ void display() {
 	glColor3ub(217, 31, 7);
 	planet(18.0, coorMarsX, coorMarsY, 60, false);
 
-	glColor3ub(138, 135, 131);
-	glBegin(GL_POINTS);
-	glPointSize(3.0f);
-	glVertex2d(coorBumiX + coorBulanBumiX, coorBumiY + coorBulanBumiY);
-	glEnd();
+	Satelites(coorBumiX + coorBulanBumiX, coorBumiY + coorBulanBumiY, 3.0f);
+	Satelites(coorMarsX + coorBulanPhobosX, coorMarsY + coorBulanPhobosY, 1.0f);
+	Satelites(coorMarsX + coorBulanDeimosX, coorMarsY + coorBulanDeimosY, 2.0f);
 
-	glColor3ub(138, 135, 131);
-	glBegin(GL_POINTS);
-	glPointSize(1.0f);
-	glVertex2d(coorMarsX + coorBulanPhobosX, coorMarsY + coorBulanPhobosY);
-	glEnd();
-
-	glColor3ub(138, 135, 131);
-	glBegin(GL_POINTS);
-	glPointSize(2.f);
-	glVertex2d(coorMarsX + coorBulanDeimosX, coorMarsY + coorBulanDeimosY);
-
-	glEnd();
 
 	glutSwapBuffers();
 }
